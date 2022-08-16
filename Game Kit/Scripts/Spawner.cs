@@ -41,6 +41,15 @@ namespace Kitbashery.core
 
         #region Initialization & Updates:
 
+        private void Start()
+        {
+            if (ObjectPools.Instance == null)
+            {
+                Debug.LogWarning("There is not an instance of ObjectPools in the scene. Disabling spawner.");
+                canSpawn = false;
+            }
+        }
+
         // Update is called once per frame.
         void Update()
         {
@@ -57,13 +66,14 @@ namespace Kitbashery.core
                         currentTime += Time.deltaTime;
                         if (currentTime >= waves[currentWave].interval)
                         {
-                            if (!string.IsNullOrEmpty(waves[currentWave].prefabName))
+                            waves[currentWave].onSpawn.Invoke();
+                            if (!string.IsNullOrEmpty(waves[currentWave].poolIdentifiers[currentWaveSpawns].prefabName))
                             {
-                                lastSpawned = ObjectPools.Instance.GetPooledObject(waves[currentWave].prefabName);
+                                lastSpawned = ObjectPools.Instance.GetPooledObject(waves[currentWave].poolIdentifiers[currentWaveSpawns].prefabName);
                             }
                             else
                             {
-                                lastSpawned = ObjectPools.Instance.GetPooledObject(waves[currentWave].poolIndex);
+                                lastSpawned = ObjectPools.Instance.GetPooledObject(waves[currentWave].poolIdentifiers[currentWaveSpawns].poolIndex);
                             }
 
                             if (lastSpawned != null)
@@ -75,31 +85,36 @@ namespace Kitbashery.core
                                 }
                                 else
                                 {
-                                    lastSpawned.transform.position += spawnOffset;
+                                    lastSpawned.transform.position = transform.TransformPoint(spawnOffset);
                                 }
 
                                 lastSpawned.SetActive(true);
-                                waves[currentWave].onSpawn.Invoke();
-                                currentWaveSpawns++;
-                                if (currentWaveSpawns == waves[currentWave].amount)
-                                {
-                                    currentWaveSpawns = 0;
-                                    currentWave++;
-                                    if (currentWave == waves.Count)
-                                    {
-                                        currentWave = 0;
-                                        canSpawn = false;
-                                    }
-                                    waves[currentWave].onWaveComplete.Invoke();
-                                }
-                                currentTime = 0;
                             }
+                            else
+                            {
+                                Debug.LogWarning("|Spawner|: " + gameObject.name + "Failed to spawn, make sure all wave amounts are less than or equal to the pool's max amount or increase the pool's amount.");
+                            }
+
+                            currentWaveSpawns++;
+                            if (currentWaveSpawns == waves[currentWave].poolIdentifiers.Count)
+                            {
+                                currentWaveSpawns = 0;
+                                currentWave++;
+                                if (currentWave == waves.Count)
+                                {
+                                    currentWave = 0;
+                                    canSpawn = false;
+                                }
+                                waves[currentWave].onWaveComplete.Invoke();
+                            }
+
+                            currentTime = 0;
                         }
                     }
                 }
                 else
                 {
-                    Debug.LogWarning("|Spawner|: " + " on " + gameObject.name + " is trying to spawn but has no waves defined.");
+                    Debug.LogWarning("|Spawner|: " + gameObject.name + " is trying to spawn but has no waves defined.");
                 }
             }
         }
@@ -153,7 +168,13 @@ namespace Kitbashery.core
 
         public void DebugCurrentWave()
         {
-            Debug.Log("|Spawner|: " + gameObject.name + " is currently on wave " + currentWave + " of " + waves.Count + " and has spawned " + currentWaveSpawns + " of " + waves[currentWave].amount + " times.");
+            Debug.Log("|Spawner|: " + gameObject.name + " is currently on wave " + currentWave + " of " + waves.Count + " and has spawned " + currentWaveSpawns + " of " + waves[currentWave].poolIdentifiers.Count + " times.");
+        }
+
+        public void RandomizeSpawnOffset(float radius)
+        {
+            UnityEngine.Random.InitState(spawnOffset.GetHashCode());
+            spawnOffset = UnityEngine.Random.insideUnitSphere * radius;
         }
 
         #endregion
@@ -165,24 +186,16 @@ namespace Kitbashery.core
     [Serializable]
     public struct Wave
     {
-        [Tooltip("The index of a pool in the ObjectPools instance pool list.")]
-        [Min(0)]
-        public int poolIndex;
-
-        [Tooltip("If specified the spawner will try to get GameObjects from the pool by the prefab name instead of index.")]
-        public string prefabName;
-
-        [Tooltip("The amount of objects to spawn. (Make sure this amount is less or equal to the pool's prefab amount).")]
-        [Min(0)]
-        public int amount;
-
+        [Space]
         [Tooltip("Time in seconds between spawns.")]
         [Min(0)]
         public float interval;
 
-        [Space]
         public UnityEvent onSpawn;
 
         public UnityEvent onWaveComplete;
+
+        [Tooltip("Defines the prefabs to enable from a pool during this wave.")]
+        public List<PoolID> poolIdentifiers;
     }
 }

@@ -6,6 +6,7 @@ namespace Kitbashery.core
     /// <summary>
     /// Exposes <see cref="UnityEvent"/>s to the inspector that are invoked during their corralating activation messages.
     /// </summary>
+    [DisallowMultipleComponent]
     [AddComponentMenu("Kitbashery/Event/Activation Events")]
     public class ActivationEvents : MonoBehaviour
     {

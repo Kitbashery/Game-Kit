@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 namespace Kitbashery.core
 {
+    [DisallowMultipleComponent]
     [RequireComponent(typeof(Collider))]
     [AddComponentMenu("Kitbashery/Event/Collision Events")]
     public class CollisionEvents : MonoBehaviour
@@ -58,7 +59,6 @@ namespace Kitbashery.core
             eventCollider.isTrigger = isTrigger;
             IgnoreColliders(ignoredColliders, true);
         }
-
 
         private void OnTriggerEnter(Collider other)
         {
