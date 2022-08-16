@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Kitbashery.core
+namespace Kitbashery.Gameplay
 {
+    [HelpURL("https://kitbashery.com/docs/game-kit/damage-zone.html")]
     [AddComponentMenu("Kitbashery/Gameplay/Damage Zone")]
     public class DamageZone : CollisionEvents
     {
-        #region Variables:
+        #region Properties:
 
         [Header("Damage Zone:")]
         [Space]
@@ -27,21 +28,35 @@ namespace Kitbashery.core
 
         private void OnValidate()
         {
+#if UNITY_EDITOR
             //Autofill events: 
+            if (enterEvent == null)
+            {
+                enterEvent = new UnityEvent();
+            }
             if (enterEvent.GetPersistentEventCount() == 0 || EventContainsListenerWithMethod(enterEvent, "RegisterTarget") == false)
             {
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(enterEvent, RegisterTarget);
             }
 
+            if (exitEvent == null)
+            {
+                exitEvent = new UnityEvent();
+            }
             if (exitEvent.GetPersistentEventCount() == 0 || EventContainsListenerWithMethod(exitEvent, "UnregisterTarget") == false)
             {
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(exitEvent, UnregisterTarget);
             }
 
+            if (stayEvent == null)
+            {
+                stayEvent = new UnityEvent();
+            }
             if (stayEvent.GetPersistentEventCount() == 0 || EventContainsListenerWithMethod(stayEvent, "ApplyDamage") == false)
             {
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(stayEvent, ApplyDamage);
             }
+#endif
         }
 
         #region Core Functions:
@@ -98,25 +113,6 @@ namespace Kitbashery.core
             enterEvent.AddListener(RegisterTarget);
             exitEvent.AddListener(UnregisterTarget);
             stayEvent.AddListener(ApplyDamage);
-        }
-
-        /// <summary>
-        /// Used to check if a <see cref="UnityEvent"/> contains a listener with a certain method.
-        /// </summary>
-        /// <param name="uEvent">The <see cref="UnityEvent"/> to check for a listener in.</param>
-        /// <param name="methodName">The name of the method to check for.</param>
-        /// <returns>true if an event contains a listener with methodName</returns>
-        public bool EventContainsListenerWithMethod(UnityEvent uEvent, string methodName)
-        {
-            for (int i = 0; i < uEvent.GetPersistentEventCount(); i++)
-            {
-                if (uEvent.GetPersistentMethodName(i) == methodName)
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         #endregion

@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Kitbashery.core
+namespace Kitbashery.Gameplay
 {
     /// <summary>
     /// Enables GameObjects pooled by <see cref="ObjectPools"/> in sequential waves.
     /// </summary>
+    [HelpURL("kitbashery.com")]
     [AddComponentMenu("Kitbashery/Gameplay/Spawner")]
     public class Spawner : MonoBehaviour
     {
-        #region Variables:
+        #region Properties:
 
         public bool canSpawn = false;
 

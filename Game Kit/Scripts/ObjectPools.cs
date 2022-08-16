@@ -2,16 +2,23 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Kitbashery.core
+namespace Kitbashery.Gameplay
 {
+    /// <summary>
+    /// A singleton class for managing multiple pools of <see cref="GameObject"/>s.
+    /// </summary>
+    [HelpURL("https://kitbashery.com/docs/game-kit/object-pools.html")]
     [DisallowMultipleComponent]
     [AddComponentMenu("Kitbashery/Gameplay/Object Pools")]
     public class ObjectPools : MonoBehaviour
     {
-        #region Variables:
+        #region Properties:
 
         public static ObjectPools Instance;
 
+        /// <summary>
+        /// A non-reorderable list of <see cref="Pool"/>s.
+        /// </summary>
         [NonReorderable]
         public List<Pool> pools = new List<Pool>();
 

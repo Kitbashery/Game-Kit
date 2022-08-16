@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Kitbashery.core
+namespace Kitbashery.Gameplay
 {
     /// <summary>
     /// Exposes <see cref="UnityEvent"/>s to the inspector that are invoked during their corralating activation messages.
     /// </summary>
+    [HelpURL("https://kitbashery.com/docs/game-kit/activation-events.html")]
     [DisallowMultipleComponent]
     [AddComponentMenu("Kitbashery/Event/Activation Events")]
     public class ActivationEvents : MonoBehaviour

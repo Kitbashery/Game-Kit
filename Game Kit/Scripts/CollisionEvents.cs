@@ -2,14 +2,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Kitbashery.core
+namespace Kitbashery.Gameplay
 {
+    /// <summary>
+    /// A wrapper for <see cref="MonoBehaviour"/>'s built-in physics methods adding conditional constrains and events.
+    /// </summary>
+    [HelpURL("https://kitbashery.com/docs/game-kit/collision-events.html")]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Collider))]
     [AddComponentMenu("Kitbashery/Event/Collision Events")]
     public class CollisionEvents : MonoBehaviour
     {
-        #region Variables:
+        #region Properties:
 
         [Tooltip("Use trigger events (true/false).")]
         public bool isTrigger = true;
@@ -155,6 +159,25 @@ namespace Kitbashery.core
 //TODO: is backward compatibility to support triggers possible?
 
 #endif
+        }
+
+        /// <summary>
+        /// Used in the Unity editor to check if a <see cref="UnityEvent"/> contains a listener with a certain method.
+        /// </summary>
+        /// <param name="uEvent">The <see cref="UnityEvent"/> to check for a listener in.</param>
+        /// <param name="methodName">The name of the method to check for.</param>
+        /// <returns>true if an event contains a listener with methodName</returns>
+        public bool EventContainsListenerWithMethod(UnityEvent uEvent, string methodName)
+        {
+            for (int i = 0; i < uEvent.GetPersistentEventCount(); i++)
+            {
+                if (uEvent.GetPersistentMethodName(i) == methodName)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void DebugCollisionCount()

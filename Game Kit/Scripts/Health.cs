@@ -1,15 +1,16 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Kitbashery.core
+namespace Kitbashery.Gameplay
 {
     /// <summary>
-    /// Tracks "hit points" and invokes events based on 
+    /// Tracks "hit points" and invokes events based on the current amount or state.
     /// </summary>
+    [HelpURL("https://kitbashery.com/docs/game-kit/health.html")]
     [AddComponentMenu("Kitbashery/Gameplay/Health")]
     public class Health : MonoBehaviour
     {
-        #region Variables:
+        #region Properties:
 
         [Tooltip("Check this to disable receiving damage.")]
         public bool invinsible = false;
@@ -160,7 +161,7 @@ namespace Kitbashery.core
         /// <summary>
         /// Checks if the amount of hitpoints is below 50% of the intial value.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>true if hitpoints are below 50%</returns>
         public bool IsLessThanHalfHealth()
         {
             return halfHealth < hitPoints;
