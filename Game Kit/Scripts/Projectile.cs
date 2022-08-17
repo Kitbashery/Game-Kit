@@ -23,10 +23,7 @@ namespace Kitbashery.Gameplay
         [Space]
         [Tooltip("Should health be modified on impact?")]
         public bool modifyHealthOnImpact = false;
-        public HealthModifiers modifier;
-        [Tooltip("The amount of health to modify on impact.")]
-        [Min(1)]
-        public int amount = 1;
+        public TimedHealthEffect healthEffect;
 
         /// <summary>
         /// The last health component registered/unregisterd.
@@ -40,6 +37,7 @@ namespace Kitbashery.Gameplay
         public bool useLifeTime = true;
         [Tooltip("How long this projectile will live before being deactivated (in seconds).")]
         public float lifeTime = 10;
+        [Min(0)]
         private float life = 0;
 
         #endregion
@@ -61,13 +59,11 @@ namespace Kitbashery.Gameplay
             if(enterEvent == null)
             {
                 enterEvent = new UnityEngine.Events.UnityEvent();
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(enterEvent, Impact);
             }
-            if (enterEvent != null)
+            else if (EventContainsListenerWithMethod(enterEvent, "Impact") == false)
             {
-                if (enterEvent.GetPersistentEventCount() == 0 || EventContainsListenerWithMethod(enterEvent, "Impact") == false)
-                {
-                    UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(enterEvent, Impact);
-                }
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(enterEvent, Impact);
             }
 #endif
         }
@@ -112,7 +108,14 @@ namespace Kitbashery.Gameplay
             if(modifyHealthOnImpact == true)
             {
                 lastHealth = lastContact.GetComponent<Health>();
-                lastHealth.ModifyHealth(modifier, amount);
+                if(healthEffect.times > 1)
+                {
+                    lastHealth.ModifyHealthOverTime(healthEffect);
+                }
+                else
+                {
+                    lastHealth.ModifyHealth(healthEffect.modifier, healthEffect.amount);
+                }
             }
 
             if (disableOnImpact == true)
