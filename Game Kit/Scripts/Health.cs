@@ -67,6 +67,24 @@ namespace Kitbashery.Gameplay
 
         #region Core Functions:
 
+        public void ModifyHealth(HealthModifiers modifier, int amount)
+        {
+            switch(modifier)
+            {
+                case HealthModifiers.damage:
+
+                    ApplyDamage(amount);
+
+                    break;
+
+                case HealthModifiers.heal:
+
+                    Heal(amount);
+
+                    break;
+            }
+        }
+
         /// <summary>
         /// Applies damage, if there is bonus health damage will be applied to that component first.
         /// </summary>
@@ -174,4 +192,6 @@ namespace Kitbashery.Gameplay
 
         #endregion
     }
+
+    public enum HealthModifiers { damage, heal }
 }

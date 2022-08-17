@@ -21,11 +21,17 @@ namespace Kitbashery.Gameplay
         public float velocity = 500;
 
         [Space]
-        [Tooltip("Should damage be applied on impact?")]
-        public bool damageOnImpact = false;
-        [Tooltip("The damage to apply on impact.")]
+        [Tooltip("Should health be modified on impact?")]
+        public bool modifyHealthOnImpact = false;
+        public HealthModifiers modifier;
+        [Tooltip("The amount of health to modify on impact.")]
         [Min(1)]
-        public int damage = 1;
+        public int amount = 1;
+
+        /// <summary>
+        /// The last health component registered/unregisterd.
+        /// </summary>
+        private Health lastHealth;
 
         [Space]
         [Tooltip("Should the projectile be disabled on impact? (useful for pooling).")]
@@ -76,6 +82,7 @@ namespace Kitbashery.Gameplay
         {
             transform.position = Vector3.zero;
             transform.rotation = Quaternion.identity;
+            lastHealth = null;
             life = 0;
         }
 
@@ -102,16 +109,13 @@ namespace Kitbashery.Gameplay
                 lastContact.attachedRigidbody.AddForceAtPosition(Vector3.one * impactForce, hit);
             }
 
-            if(damageOnImpact == true)
+            if(modifyHealthOnImpact == true)
             {
-                Health hp = lastContact.GetComponent<Health>();
-                if(hp != null)
-                {
-                    hp.ApplyDamage(damage);
-                }
+                lastHealth = lastContact.GetComponent<Health>();
+                lastHealth.ModifyHealth(modifier, amount);
             }
 
-            if(disableOnImpact == true)
+            if (disableOnImpact == true)
             {
                 gameObject.SetActive(false);
             }

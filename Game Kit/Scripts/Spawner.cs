@@ -9,7 +9,7 @@ namespace Kitbashery.Gameplay
     /// <summary>
     /// Enables GameObjects pooled by <see cref="ObjectPools"/> in sequential waves.
     /// </summary>
-    [HelpURL("kitbashery.com")]
+    [HelpURL("https://kitbashery.com/docs/game-kit/spawner.html")]
     [AddComponentMenu("Kitbashery/Gameplay/Spawner")]
     public class Spawner : MonoBehaviour
     {
