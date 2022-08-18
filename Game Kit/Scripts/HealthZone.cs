@@ -41,8 +41,9 @@ namespace Kitbashery.Gameplay
             if (enterEvent == null)
             {
                 enterEvent = new UnityEvent();
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(enterEvent, RegisterTarget);
             }
-            if (enterEvent.GetPersistentEventCount() == 0 || EventContainsListenerWithMethod(enterEvent, "RegisterTarget") == false)
+            else if(EventContainsListenerWithMethod(enterEvent, "RegisterTarget") == false)
             {
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(enterEvent, RegisterTarget);
             }
@@ -50,8 +51,9 @@ namespace Kitbashery.Gameplay
             if (exitEvent == null)
             {
                 exitEvent = new UnityEvent();
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(exitEvent, UnregisterTarget);
             }
-            if (exitEvent.GetPersistentEventCount() == 0 || EventContainsListenerWithMethod(exitEvent, "UnregisterTarget") == false)
+            else if(EventContainsListenerWithMethod(exitEvent, "UnregisterTarget") == false)
             {
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(exitEvent, UnregisterTarget);
             }
@@ -59,8 +61,9 @@ namespace Kitbashery.Gameplay
             if (stayEvent == null)
             {
                 stayEvent = new UnityEvent();
+                UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(stayEvent, ModifyHealth);
             }
-            if (stayEvent.GetPersistentEventCount() == 0 || EventContainsListenerWithMethod(stayEvent, "ModifyHealth") == false)
+            else if (EventContainsListenerWithMethod(stayEvent, "ModifyHealth") == false)
             {
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(stayEvent, ModifyHealth);
             }

@@ -12,7 +12,6 @@ namespace Kitbashery.Gameplay
         [Header("Projectile:")]
         public Rigidbody rigid;
 
-        [Space]
         [Tooltip("Should force be applied to the hit rigidbody?")]
         public bool applyForceOnImpact = true;
         [Tooltip("Force applied to the rigidbody of hit colliders.")]
@@ -60,6 +59,9 @@ namespace Kitbashery.Gameplay
             {
                 enterEvent = new UnityEngine.Events.UnityEvent();
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(enterEvent, Impact);
+
+                healthEffect.amount = 1;
+                healthEffect.times = 1;
             }
             else if (EventContainsListenerWithMethod(enterEvent, "Impact") == false)
             {

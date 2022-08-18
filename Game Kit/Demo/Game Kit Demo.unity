@@ -221,12 +221,12 @@ GameObject:
   - component: {fileID: 43853251}
   - component: {fileID: 43853255}
   m_Layer: 0
-  m_Name: Damage Zone
+  m_Name: Health Zone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &43853251
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -325,7 +325,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 43853255}
-        m_TargetAssemblyTypeName: Kitbashery.Gameplay.DamageZone, Assembly-CSharp
+        m_TargetAssemblyTypeName: Kitbashery.Gameplay.HealthZone, Assembly-CSharp
         m_MethodName: RegisterTarget
         m_Mode: 1
         m_Arguments:
@@ -340,7 +340,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 43853255}
-        m_TargetAssemblyTypeName: Kitbashery.Gameplay.DamageZone, Assembly-CSharp
+        m_TargetAssemblyTypeName: Kitbashery.Gameplay.HealthZone, Assembly-CSharp
         m_MethodName: UnregisterTarget
         m_Mode: 1
         m_Arguments:
@@ -355,8 +355,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 43853255}
-        m_TargetAssemblyTypeName: Kitbashery.Gameplay.DamageZone, Assembly-CSharp
-        m_MethodName: ApplyDamage
+        m_TargetAssemblyTypeName: Kitbashery.Gameplay.HealthZone, Assembly-CSharp
+        m_MethodName: ModifyHealth
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -369,9 +369,10 @@ MonoBehaviour:
   lastContact: {fileID: 0}
   colliders: []
   eventCollider: {fileID: 0}
-  damage: 1
+  modifier: 0
+  amount: 1
   targetHP: []
-  lastHealth: []
+  lastHealth: {fileID: 0}
 --- !u!1 &70724180
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,7 +389,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &70724181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,6 +529,90 @@ Transform:
   m_Father: {fileID: 2059835720}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &163759811
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 163759813}
+  - component: {fileID: 163759812}
+  m_Layer: 0
+  m_Name: Health
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &163759812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163759811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba5fb71024046749af5e8b7a9b5caf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <invinsible>k__BackingField: 0
+  bonusHealth: {fileID: 0}
+  hitPoints: 100
+  <overhealExpand>k__BackingField: 0
+  <canRegen>k__BackingField: 0
+  regenPoints: 1
+  regenRate: 0.1
+  onReceivedDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 163759812}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHealed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 163759812}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onDead:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &163759813
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163759811}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 25.196363, y: 4.657934, z: -1.9020252}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &751761738
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,63 +624,14 @@ GameObject:
   - component: {fileID: 751761742}
   - component: {fileID: 751761741}
   - component: {fileID: 751761740}
-  - component: {fileID: 751761739}
+  - component: {fileID: 751761743}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &751761739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 751761738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49df814edf10eda419221794ab9a80c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isTrigger: 1
-  maxCollisions: 50
-  requiredTags: []
-  ignoredColliders: []
-  enterEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 751761739}
-        m_TargetAssemblyTypeName: Kitbashery.Gameplay.Projectile, Assembly-CSharp
-        m_MethodName: Impact
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  exitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  stayEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  lastContact: {fileID: 0}
-  colliders: []
-  eventCollider: {fileID: 0}
-  rigid: {fileID: 0}
-  applyForceOnImpact: 1
-  impactForce: 1
-  velocity: 500
-  damageOnImpact: 0
-  damage: 1
-  disableOnImpact: 1
-  useLifeTime: 1
-  lifeTime: 10
+  m_IsActive: 0
 --- !u!54 &751761740
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -640,6 +676,60 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &751761743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751761738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49df814edf10eda419221794ab9a80c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTrigger: 1
+  maxCollisions: 50
+  requiredTags: []
+  ignoredColliders: []
+  enterEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 751761743}
+        m_TargetAssemblyTypeName: Kitbashery.Gameplay.Projectile, Assembly-CSharp
+        m_MethodName: Impact
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  exitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  stayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  lastContact: {fileID: 0}
+  colliders: []
+  eventCollider: {fileID: 0}
+  rigid: {fileID: 0}
+  applyForceOnImpact: 1
+  impactForce: 1
+  velocity: 500
+  modifyHealthOnImpact: 0
+  healthEffect:
+    name: 
+    modifier: 0
+    amount: 1
+    times: 1
+    interval: 0
+  disableOnImpact: 1
+  useLifeTime: 1
+  lifeTime: 10
 --- !u!1 &1394021188
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,7 +746,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1394021189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -803,7 +893,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1799891582
 Transform:
   m_ObjectHideFlags: 0
@@ -1070,7 +1160,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2065983281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1083,9 +1173,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a746ef034d374934ca8e42907c796477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canSpawn: 1
-  spawnForward: 0
-  forwardDistance: 1
+  <canSpawn>k__BackingField: 0
+  <spawnForward>k__BackingField: 0
+  <forwardDistance>k__BackingField: 0
   spawnOffset: {x: 0, y: 0, z: 0}
   waves:
   - interval: 1
@@ -1208,6 +1298,9 @@ MonoBehaviour:
       prefabName: 
     - poolIndex: 0
       prefabName: 
+    randomizeWaves: 0
+    spawnAmount: 0
+    randomPools: 
   lastSpawned: {fileID: 0}
   currentWave: 0
   currentWaveSpawns: 0

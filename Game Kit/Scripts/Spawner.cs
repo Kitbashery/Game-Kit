@@ -15,12 +15,15 @@ namespace Kitbashery.Gameplay
     {
         #region Properties:
 
-        public bool canSpawn = false;
+        [field: SerializeField]
+        public bool canSpawn { get; set; }
 
         [Tooltip("Spawned GameObjects will be positioned in the direction the spawner is facing.")]
-        public bool spawnForward = false;
+        [field: SerializeField]
+        public bool spawnForward { get; set; }
         [Tooltip("How far forward to spawn a GameObject (if Spawn Forward is checked).")]
-        public float forwardDistance = 1;
+        [field: SerializeField]
+        public float forwardDistance { get; set; }
         public Vector3 spawnOffset;
         [Tooltip("Sequential information on what pool to spawn GameObjects from, how often and how many.")]
         public List<Wave> waves = new List<Wave>();
@@ -149,11 +152,6 @@ namespace Kitbashery.Gameplay
             StartCoroutine(Delay(time));
         }
 
-        public void ToggleSpawn(bool toggle)
-        {
-            canSpawn = toggle;
-        }
-
         public void SetWave(int wave)
         {
             if (wave <= waves.Count)
@@ -165,6 +163,39 @@ namespace Kitbashery.Gameplay
                 Debug.LogWarning("|Spawner|: " + gameObject.name + " tried to set the wave beyond the maximum amount of waves.");
             }
 
+        }
+
+        /// <summary>
+        /// Randomizes the spawns of a wave.
+        /// </summary>
+        /// <param name="wave">The wave to randomize.</param>
+        /// <returns>The wave with randomized spawns.</returns>
+        public Wave RandomizeWave(Wave wave)
+        {
+            List<PoolID> ids = new List<PoolID>();
+            for(int i = 0; i < wave.spawnAmount; i++)
+            {
+                PoolID id = new();
+                id.poolIndex = wave.randomPools[UnityEngine.Random.Range(0, wave.randomPools.Count)];
+                ids.Add(id);
+            }
+            wave.poolIdentifiers = ids;
+
+            return wave;
+        }
+
+        /// <summary>
+        /// Randomizes all waves that have randomWaves set to true.
+        /// </summary>
+        public void RandomizeWaves()
+        {
+            for(int i = 0; i < waves.Count; i++)
+            {
+                if (waves[i].randomizeWaves == true)
+                {
+                    waves[i] = RandomizeWave(waves[i]);
+                }
+            }
         }
 
         public void DebugCurrentWave()
@@ -198,5 +229,13 @@ namespace Kitbashery.Gameplay
 
         [Tooltip("Defines the prefabs to enable from a pool during this wave.")]
         public List<PoolID> poolIdentifiers;
+
+        [Space]
+        [Tooltip("Should spawns be randomized? (used instead of poolIdentifiers).")]
+        public bool randomizeWaves;
+        [Tooltip("The amount of spawns in this wave.")]
+        public int spawnAmount;
+        [Tooltip("Pool indices to select spawns from.")]
+        public List<int> randomPools;
     }
 }
