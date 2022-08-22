@@ -1,10 +1,5 @@
 # GameKit
 
-[Download Latest](https://github.com/Kitbashery/Game-Kit/releases/download/Latest/Kitbashery_GameKit.unitypackage){: .btn }
-[Unity Asset Store](http://example.com/){: .btn }
-[Kitbashery Store](http://example.com/){: .btn }
-[Older Versions](https://github.com/Kitbashery/Game-Kit/releases){: .btn }
-
 ## Description:
 GameKit contains feature rich systems and components commonly used in games. Designed with 3D games in mind, however some components may function in 2D as well.
 
