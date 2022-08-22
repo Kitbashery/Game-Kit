@@ -2,6 +2,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+/*
+ MIT License
+
+Copyright (c) 2022 Kitbashery
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+
+Need support or additional features? Please visit https://kitbashery.com/
+*/
+
 namespace Kitbashery.Gameplay
 {
     /// <summary>
@@ -40,6 +68,11 @@ namespace Kitbashery.Gameplay
         /// </summary>
         [HideInInspector]
         public Collider lastContact;
+
+        /// <summary>
+        /// The last collision that occured.
+        /// </summary>
+        public Collision lastCollision;
 
         /// <summary>
         /// All colliders currently interacting with the collision event collider.
@@ -104,6 +137,7 @@ namespace Kitbashery.Gameplay
             if (isTrigger == false && colliders.Count < maxCollisions && (requiredTags.Count == 0 || requiredTags.Contains(collision.gameObject.tag)))
             {
                 lastContact = collision.collider;
+                lastCollision = collision;
                 if (!colliders.Contains(collision.collider))
                 {
                     colliders.Add(collision.collider);
@@ -117,6 +151,7 @@ namespace Kitbashery.Gameplay
             if (isTrigger == false && colliders.Count < maxCollisions && (requiredTags.Count == 0 || requiredTags.Contains(collision.gameObject.tag)))
             {
                 lastContact = collision.collider;
+                lastCollision = collision;
                 if (colliders.Contains(collision.collider))
                 {
                     colliders.Remove(collision.collider);
@@ -130,6 +165,7 @@ namespace Kitbashery.Gameplay
             if (isTrigger == false && (requiredTags.Count == 0 || requiredTags.Contains(collision.gameObject.tag)))
             {
                 lastContact = collision.collider;
+                lastCollision = collision;
                 stayEvent.Invoke();
             }
         }
@@ -166,7 +202,7 @@ namespace Kitbashery.Gameplay
         /// </summary>
         /// <param name="uEvent">The <see cref="UnityEvent"/> to check for a listener in.</param>
         /// <param name="methodName">The name of the method to check for.</param>
-        /// <returns>true if an event contains a listener with methodName</returns>
+        /// <returns>true if an event contains a listener with methodName.</returns>
         public bool EventContainsListenerWithMethod(UnityEvent uEvent, string methodName)
         {
             for (int i = 0; i < uEvent.GetPersistentEventCount(); i++)

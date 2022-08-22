@@ -4,6 +4,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+/*
+ MIT License
+
+Copyright (c) 2022 Kitbashery
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+
+Need support or additional features? Please visit https://kitbashery.com/
+*/
+
 namespace Kitbashery.Gameplay
 {
     /// <summary>
@@ -70,7 +98,6 @@ namespace Kitbashery.Gameplay
                         currentTime += Time.deltaTime;
                         if (currentTime >= waves[currentWave].interval)
                         {
-                            waves[currentWave].onSpawn.Invoke();
                             if (!string.IsNullOrEmpty(waves[currentWave].poolIdentifiers[currentWaveSpawns].prefabName))
                             {
                                 lastSpawned = ObjectPools.Instance.GetPooledObject(waves[currentWave].poolIdentifiers[currentWaveSpawns].prefabName);
@@ -82,6 +109,8 @@ namespace Kitbashery.Gameplay
 
                             if (lastSpawned != null)
                             {
+                                waves[currentWave].onSpawn.Invoke();
+
                                 lastSpawned.transform.rotation = transform.rotation;
                                 if (spawnForward == true)
                                 {
@@ -223,6 +252,9 @@ namespace Kitbashery.Gameplay
         [Min(0)]
         public float interval;
 
+        [Tooltip("The amount of spawns in this wave.")]
+        public int spawnAmount;
+
         public UnityEvent onSpawn;
 
         public UnityEvent onWaveComplete;
@@ -233,8 +265,6 @@ namespace Kitbashery.Gameplay
         [Space]
         [Tooltip("Should spawns be randomized? (used instead of poolIdentifiers).")]
         public bool randomizeWaves;
-        [Tooltip("The amount of spawns in this wave.")]
-        public int spawnAmount;
         [Tooltip("Pool indices to select spawns from.")]
         public List<int> randomPools;
     }
