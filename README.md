@@ -40,3 +40,6 @@ GameKit contains feature rich systems and components commonly used in games. Des
 * Dynamic activation events
 * Integrated with health system
 * Integrated with projectiles
+
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S8EKDY5)
