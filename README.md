@@ -1,5 +1,7 @@
 # GameKit
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S8EKDY5)
+
 ## Description:
 GameKit contains feature rich systems and components commonly used in games. Designed with 3D games in mind, however some components may function in 2D as well.
 
@@ -40,6 +42,3 @@ GameKit contains feature rich systems and components commonly used in games. Des
 * Dynamic activation events
 * Integrated with health system
 * Integrated with projectiles
-
-
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S8EKDY5)
