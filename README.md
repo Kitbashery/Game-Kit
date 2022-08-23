@@ -9,7 +9,7 @@ GameKit contains feature rich systems and components commonly used in games. Des
 
 #### Object pooling:
 * Improves game performace
-* Sequencial naming
+* Sequential naming
 * Hide pooled GameObjects in the inspector
 * Expandable pools.
 
@@ -22,8 +22,8 @@ GameKit contains feature rich systems and components commonly used in games. Des
 
 #### Health:
 * Invinsibility
-* Multiple healthbars
-* Passive regenration
+* Multiple health bars
+* Passive regeneration
 * Damage/healing
 * Stackable effects over time
 * Damage/heal/death Events
