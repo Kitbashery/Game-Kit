@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 /*
  MIT License
@@ -67,6 +68,7 @@ namespace Kitbashery.Gameplay
         [Tooltip("How many times should the projectile be allowed to bounce before it can be disabled?")]
         [Min(0)]
         public int ricochets = 0;
+        public UnityEvent onRicochet;
         [Min(0)]
         private int currentRicochets = 0;
         [Tooltip("Should the GameObject be deactivated after lifeTime has elapsed.")]
@@ -195,6 +197,7 @@ namespace Kitbashery.Gameplay
                 }
                 else
                 {
+                    onRicochet.Invoke();
                     rigid.velocity = Vector3.zero;
                     Vector3 richochet = -lastCollision.GetContact(0).normal;
                     transform.LookAt(richochet);
