@@ -44,23 +44,19 @@ namespace Kitbashery.Gameplay
     {
         #region Properties:
 
-        [Tooltip("Check this to disable receiving damage.")]
-        [field: SerializeField]
-        public bool invinsible { get; set; }
+        [field: SerializeField, Tooltip("Check this to disable receiving damage.")]
+        public bool invinsible { get; set; } = false;
 
         [Tooltip("If assigned the hitpoints of the bonus health will need to be depleted before damage can be applied to this health component.")]
         public Health bonusHealth;
         [Tooltip("The hitpoints to start with, it isn't recommended to modify this value directly during runtime, use ModifyHealth() instead.")]
         [Min(0)]
         public int hitPoints = 100;
-        [Tooltip("Should the maximum hit points be expanded if healed beyond maxHitPoints?")]
+        [field: SerializeField, Tooltip("Should the maximum hit points be expanded if healed beyond maxHitPoints?")]
+        public bool overhealExpand { get; set; } = false;
 
-        [field: SerializeField]
-        public bool overhealExpand { get; set; }
-
-        [Tooltip("Enables passive health regeneration.")]
-        [field: SerializeField]
-        public bool canRegen { get; set; }
+        [field: SerializeField, Tooltip("Enables passive health regeneration.")]
+        public bool canRegen { get; set; } = false;
         [Tooltip("Hitpoints to regenerate.")]
         [Min(1)]
         public int regenPoints = 1;
