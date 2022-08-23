@@ -10,7 +10,7 @@ GameKit contains feature rich systems and components commonly used in games. Des
 #### Object pooling:
 * Improves game performace
 * Sequencial naming
-* Hide pooled GameObject in the inspector
+* Hide pooled GameObjects in the inspector
 * Expandable pools.
 
 #### Spawner:
