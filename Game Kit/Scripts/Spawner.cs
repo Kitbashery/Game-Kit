@@ -43,15 +43,14 @@ namespace Kitbashery.Gameplay
     {
         #region Properties:
 
+       
         [field: SerializeField]
         public bool canSpawn { get; set; }
 
-        [Tooltip("Spawned GameObjects will be positioned in the direction the spawner is facing.")]
-        [field: SerializeField]
-        public bool spawnForward { get; set; }
-        [Tooltip("How far forward to spawn a GameObject (if Spawn Forward is checked).")]
-        [field: SerializeField]
-        public float forwardDistance { get; set; }
+        [field: SerializeField, Tooltip("Spawned GameObjects will be positioned in the direction the spawner is facing.")]
+        public bool spawnForward { get; set; } = false;
+        [field: SerializeField, Tooltip("How far forward to spawn a GameObject (if Spawn Forward is checked).")]
+        public float forwardDistance { get; set; } = 0;
         public Vector3 spawnOffset;
         [Tooltip("Sequential information on what pool to spawn GameObjects from, how often and how many.")]
         public List<Wave> waves = new List<Wave>();
