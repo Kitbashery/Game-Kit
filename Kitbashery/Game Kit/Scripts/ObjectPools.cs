@@ -93,7 +93,7 @@ namespace Kitbashery.Gameplay
                 }
                 else
                 {
-                    Debug.LogWarning("|Object Pool|: Failed to create pool (" + pool.prefab.name + ") a pool already exisits for that prefab, concider renaming.");
+                    Debug.LogWarningFormat("|Object Pool|: Failed to create pool ({0}) a pool already exisits for that prefab, concider renaming.", pool.prefab.name);
                 }
             }
             tmp = null;
@@ -164,7 +164,7 @@ namespace Kitbashery.Gameplay
             }
             else
             {
-                Debug.LogWarning("|Object Pool|: failed to activate GameObject from pool " + index + " GameObject will be null, make sure the index is within range.");
+                Debug.LogWarningFormat("|Object Pool|: failed to activate GameObject from pool {0} GameObject will be null, make sure the index is within range.", index);
             }
         }
 
@@ -182,7 +182,7 @@ namespace Kitbashery.Gameplay
             }
             else
             {
-                Debug.LogWarning("|Object Pool|: failed to activate GameObject from pool (" + name + ") GameObject will be null, make sure the name is correct.");
+                Debug.LogWarningFormat("|Object Pool|: failed to activate GameObject from pool ({0}) GameObject will be null, make sure the name is correct.", name);
             }
         }
 
@@ -205,7 +205,7 @@ namespace Kitbashery.Gameplay
             }
             else
             {
-                Debug.LogWarning("|Object Pool|: failed to get GameObject from pool " + index + " GameObject will be null, make sure the index is within range.");
+                Debug.LogWarningFormat("|Object Pool|: failed to get GameObject from pool {0} GameObject will be null, make sure the index is within range.", index);
             }
 
             return null;
@@ -230,7 +230,7 @@ namespace Kitbashery.Gameplay
             }
             else
             {
-                Debug.LogWarning("|Object Pool|: failed to get GameObject from pool (" + name + ") GameObject will be null, make sure the name is correct.");
+                Debug.LogWarningFormat("|Object Pool|: failed to get GameObject from pool ({0}) GameObject will be null, make sure the name is correct.", name);
             }
 
             return null;

@@ -123,7 +123,7 @@ namespace Kitbashery.Gameplay
                             }
                             else
                             {
-                                Debug.LogWarning("|Spawner|: " + gameObject.name + "Failed to spawn, make sure all wave amounts are less than or equal to the pool's max amount or increase the pool's amount.");
+                                Debug.LogWarning("|Spawner|: Failed to spawn, make sure all wave amounts are less than or equal to the pool's max amount or increase the pool's amount.", gameObject);
                             }
 
                             currentWaveSpawns++;
@@ -145,7 +145,7 @@ namespace Kitbashery.Gameplay
                 }
                 else
                 {
-                    Debug.LogWarning("|Spawner|: " + gameObject.name + " is trying to spawn but has no waves defined.");
+                    Debug.LogWarning("|Spawner|: Trying to spawn but no waves are defined.", gameObject);
                 }
             }
         }
@@ -187,7 +187,7 @@ namespace Kitbashery.Gameplay
             }
             else
             {
-                Debug.LogWarning("|Spawner|: " + gameObject.name + " tried to set the wave beyond the maximum amount of waves.");
+                Debug.LogWarning("|Spawner|: Tried to set the wave beyond the maximum amount of waves.", gameObject);
             }
 
         }
@@ -227,7 +227,7 @@ namespace Kitbashery.Gameplay
 
         public void DebugCurrentWave()
         {
-            Debug.Log("|Spawner|: " + gameObject.name + " is currently on wave " + currentWave + " of " + waves.Count + " and has spawned " + currentWaveSpawns + " of " + waves[currentWave].poolIdentifiers.Count + " times.");
+            Debug.LogFormat(gameObject, "|Spawner|: Currently on wave {0} of {1} and has spawned {2} of {3} times.", currentWave, waves.Count, currentWaveSpawns, waves[currentWave].poolIdentifiers.Count);
         }
 
         public void RandomizeSpawnOffset(float radius)

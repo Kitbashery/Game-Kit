@@ -85,6 +85,13 @@ namespace Kitbashery.Gameplay
         public TargetModes targetMode = TargetModes.targetFirst;
         [Tooltip("The layer(s) to search for a target in.")]
         public LayerMask layerMask;
+        [Tooltip("How should the projectile interact with trigger colliders?")]
+        public QueryTriggerInteraction triggerInteraction = QueryTriggerInteraction.Ignore;
+        /// <summary>
+        /// Raycast hits collected when the projectile searches for targets to seek.
+        /// </summary>
+        [HideInInspector]
+        public RaycastHit[] hits;
         [Tooltip("The tag required for a GameObject to be set as a target. (leave blank if you don't need this).")]
         public string targetTag;
         [Tooltip("The range to search for a target in.")]
@@ -227,7 +234,7 @@ namespace Kitbashery.Gameplay
         /// </summary>
         public void FindBestTarget()
         {
-            RaycastHit[] hits = Physics.SphereCastAll(transform.position, searchRange, Vector3.zero, layerMask);
+            Physics.SphereCastNonAlloc(transform.position, searchRange, Vector3.zero, hits, Mathf.Infinity, layerMask, triggerInteraction);
             if (hits.Length > 0)
             {
                 Transform bestTarget = null;
@@ -238,7 +245,7 @@ namespace Kitbashery.Gameplay
 
                         foreach (RaycastHit hit in hits)
                         {
-                            if (string.IsNullOrEmpty(targetTag) || hit.transform.gameObject.tag == targetTag)
+                            if (string.IsNullOrEmpty(targetTag) || hit.transform.gameObject.CompareTag(targetTag) == true)
                             {
                                 bestTarget = hit.transform;
                             }
@@ -251,7 +258,7 @@ namespace Kitbashery.Gameplay
                         float nearestDistance = Mathf.Infinity;
                         foreach (RaycastHit hit in hits)
                         {
-                            if (string.IsNullOrEmpty(targetTag) || hit.transform.gameObject.tag == targetTag)
+                            if (string.IsNullOrEmpty(targetTag) || hit.transform.gameObject.CompareTag(targetTag) == true)
                             {
                                 float distance = Vector3.Distance(transform.position, hit.transform.position);
                                 if (distance < nearestDistance)
@@ -269,7 +276,7 @@ namespace Kitbashery.Gameplay
                         float farthestDistance = 0;
                         foreach (RaycastHit hit in hits)
                         {
-                            if (string.IsNullOrEmpty(targetTag) || hit.transform.gameObject.tag == targetTag)
+                            if (string.IsNullOrEmpty(targetTag) || hit.transform.gameObject.CompareTag(targetTag) == true)
                             {
                                 float distance = Vector3.Distance(transform.position, hit.transform.position);
                                 if (distance > farthestDistance)

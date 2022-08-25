@@ -642,11 +642,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 751761742}
-  - component: {fileID: 751761741}
-  - component: {fileID: 751761740}
-  - component: {fileID: 751761743}
-  - component: {fileID: 751761745}
   - component: {fileID: 751761744}
+  - component: {fileID: 751761745}
+  - component: {fileID: 751761740}
+  - component: {fileID: 751761747}
+  - component: {fileID: 751761746}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
@@ -670,19 +670,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &751761741
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 751761738}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &751761742
 Transform:
   m_ObjectHideFlags: 0
@@ -698,73 +685,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &751761743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 751761738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49df814edf10eda419221794ab9a80c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isTrigger: 1
-  maxCollisions: 50
-  requiredTags: []
-  ignoredColliders: []
-  enterEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 751761743}
-        m_TargetAssemblyTypeName: Kitbashery.Gameplay.Projectile, Assembly-CSharp
-        m_MethodName: Impact
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  exitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  stayEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  lastContact: {fileID: 0}
-  colliders: []
-  eventCollider: {fileID: 0}
-  rigid: {fileID: 751761740}
-  applyForceOnImpact: 1
-  impactForce: 1
-  velocity: 50
-  modifyHealthOnImpact: 0
-  healthEffect:
-    name: 
-    modifier: 0
-    amount: 1
-    times: 1
-    interval: 0
-  disableOnImpact: 1
-  ricochets: 0
-  onRicochet:
-    m_PersistentCalls:
-      m_Calls: []
-  useLifeTime: 1
-  lifeTime: 10
-  seekTarget: 0
-  target: {fileID: 43853254}
-  targetMode: 0
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  targetTag: 
-  searchRange: 10
-  seekSpeed: 10
 --- !u!33 &751761744
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -815,6 +735,86 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &751761746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751761738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49df814edf10eda419221794ab9a80c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTrigger: 1
+  maxCollisions: 50
+  requiredTags: []
+  ignoredColliders: []
+  enterEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 751761746}
+        m_TargetAssemblyTypeName: Kitbashery.Gameplay.Projectile, Assembly-CSharp
+        m_MethodName: Impact
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  exitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  stayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  lastContact: {fileID: 0}
+  colliders: []
+  eventCollider: {fileID: 0}
+  rigid: {fileID: 751761740}
+  applyForceOnImpact: 1
+  impactForce: 1
+  velocity: 50
+  modifyHealthOnImpact: 0
+  healthEffect:
+    name: 
+    modifier: 0
+    amount: 1
+    times: 1
+    interval: 0
+  disableOnImpact: 1
+  ricochets: 0
+  onRicochet:
+    m_PersistentCalls:
+      m_Calls: []
+  useLifeTime: 1
+  lifeTime: 10
+  seekTarget: 0
+  target: {fileID: 0}
+  targetMode: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  targetTag: 
+  searchRange: 10
+  seekSpeed: 10
+--- !u!135 &751761747
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751761738}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5000001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1277680942
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,6 +1069,374 @@ Transform:
   m_Father: {fileID: 2059835720}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 175, y: 0, z: 0}
+--- !u!1 &1509771650
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1509771658}
+  - component: {fileID: 1509771657}
+  - component: {fileID: 1509771656}
+  - component: {fileID: 1509771655}
+  - component: {fileID: 1509771654}
+  - component: {fileID: 1509771653}
+  - component: {fileID: 1509771652}
+  - component: {fileID: 1509771651}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1509771651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509771650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02b459628bb683d48924b2ff9a0fda16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tweenWhenVisible: 0
+  rend: {fileID: 0}
+  visibilityCam: {fileID: 0}
+  useFixedUpdate: 0
+  startDelay: 0
+  onTweenUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  <tweening>k__BackingField: 1
+  tweeningAtStart: 0
+  speed: 1
+  lerpTime: 0
+  duration: 5
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  wrapMode: 4
+  lookAtTarget: {fileID: 0}
+  horizontalAxis: 0
+  directLook: 0
+  lookAtPos: {x: 33.186028, y: -2.221015, z: -7.9148903}
+--- !u!114 &1509771652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509771650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa9c2ba438744d145a38ac4b437a60cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tweenWhenVisible: 0
+  rend: {fileID: 0}
+  visibilityCam: {fileID: 0}
+  useFixedUpdate: 0
+  startDelay: 0
+  onTweenUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  <tweening>k__BackingField: 1
+  tweeningAtStart: 0
+  speed: 1
+  lerpTime: 0
+  duration: 5
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  wrapMode: 4
+  index: 0
+  targetMaterial: {fileID: 0}
+  onTargetReached:
+    m_PersistentCalls:
+      m_Calls: []
+  currentMaterial: {fileID: 0}
+--- !u!114 &1509771653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509771650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e22e7b91130ff154ba63a681db528fd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tweenWhenVisible: 0
+  rend: {fileID: 0}
+  visibilityCam: {fileID: 0}
+  useFixedUpdate: 0
+  startDelay: 0
+  onTweenUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  <tweening>k__BackingField: 1
+  tweeningAtStart: 0
+  speed: 1
+  lerpTime: 0
+  duration: 5
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  wrapMode: 4
+  target: {x: 0, y: 0, z: 1}
+  onTargetReached:
+    m_PersistentCalls:
+      m_Calls: []
+  nextPos: {x: 0, y: 0, z: 0}
+--- !u!114 &1509771654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509771650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 727feb3e3f13d414a94693a95d55790c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tweenWhenVisible: 0
+  rend: {fileID: 0}
+  visibilityCam: {fileID: 0}
+  useFixedUpdate: 0
+  startDelay: 0
+  onTweenUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  <tweening>k__BackingField: 1
+  tweeningAtStart: 0
+  speed: 1
+  lerpTime: 0
+  duration: 5
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  wrapMode: 4
+  target: {x: 0, y: 0, z: 0}
+  scaleFactor: 0.5
+  smoothInterpolate: 1
+--- !u!114 &1509771655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509771650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9e85cb01dff52c41b1799764564ac70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tweenWhenVisible: 0
+  rend: {fileID: 0}
+  visibilityCam: {fileID: 0}
+  useFixedUpdate: 0
+  startDelay: 0
+  onTweenUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  <tweening>k__BackingField: 1
+  tweeningAtStart: 0
+  speed: 1
+  lerpTime: 0
+  duration: 5
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  wrapMode: 4
+  target: {x: 0, y: 0, z: 0}
+  onTargetReached:
+    m_PersistentCalls:
+      m_Calls: []
+  initialRot: {x: 0, y: 0, z: 0, w: 0}
+  nextRot: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1509771656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509771650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d39cd4738a745418e12cf1c588dcee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <pauseTweens>k__BackingField: 0
+  tweens: []
+--- !u!23 &1509771657
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509771650}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!4 &1509771658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509771650}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 33.186028, y: -2.221015, z: -6.9148903}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1594541299
 GameObject:
   m_ObjectHideFlags: 0

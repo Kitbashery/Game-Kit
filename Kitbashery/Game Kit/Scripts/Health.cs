@@ -92,7 +92,7 @@ namespace Kitbashery.Gameplay
             if(bonusHealth == this)
             {
                 bonusHealth = null;
-                Debug.Log("|Health|: on " + gameObject.name + " had bonusHealth assigned to itself so it has been set to null.");
+                Debug.Log("|Health|: Has bonusHealth assigned to itself so it has been set to null.", gameObject);
             }
         }
 
@@ -358,12 +358,12 @@ namespace Kitbashery.Gameplay
 
         public void DebugTimedEffectCount()
         {
-            Debug.Log("|Health|: on " + gameObject.name + " has " + healthEffects.Count + " timed health effects being applied.");
+            Debug.LogFormat(gameObject, "|Health|: Has {0} timed health effects being applied.", healthEffects.Count);
         }
 
         public void DebugCurrentHealth()
         {
-            Debug.Log("|Health|: on " + gameObject.name + " hitpoints currently are: " + hitPoints);
+            Debug.LogFormat(gameObject, "|Health|: Hitpoints currently are: {0}", hitPoints);
         }
 
         #endregion

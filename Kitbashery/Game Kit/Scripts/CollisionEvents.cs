@@ -218,12 +218,12 @@ namespace Kitbashery.Gameplay
 
         public void DebugCollisionCount()
         {
-            Debug.Log("|CollisionEvent|: " + gameObject.name + " is colliding with " + colliders.Count + " colliders.");
+            Debug.LogFormat(gameObject, "|CollisionEvent|: Colliding with {0} colliders.", colliders.Count);
         }
 
         public void DebugLastCollision()
         {
-            Debug.Log("|CollisionEvent|: " + gameObject.name + " last collided with " + lastContact.gameObject.name + "'s collider.");
+            Debug.LogFormat(gameObject, "|CollisionEvent|: last collided with {0}'s collider.", lastContact.gameObject.name);
         }
 
         #endregion
