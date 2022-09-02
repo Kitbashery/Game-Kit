@@ -42,3 +42,7 @@ GameKit contains feature rich systems and components commonly used in games. Des
 * Dynamic activation events
 * Integrated with health system
 * Integrated with projectiles
+
+# 
+The name Kitbashery & all associated images Copyright &copy; 2022 Kitbashery. All Rights Reserved.
+
