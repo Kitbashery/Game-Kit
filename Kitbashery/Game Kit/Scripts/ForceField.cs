@@ -84,7 +84,14 @@ namespace Kitbashery.Gameplay
                             windPluseTime += Time.fixedDeltaTime;
                             if (windPluseTime >= wind.windPulseFrequency)
                             {
-                                rigid.AddForce(wind.transform.forward * Random.Range(wind.windMain, wind.windMain + wind.windTurbulence) * wind.windPulseMagnitude, ForceMode.Impulse);
+                                if(wind.mode == WindZoneMode.Directional)
+                                {
+                                    rigid.AddForce(wind.transform.forward * Random.Range(wind.windMain, wind.windMain + wind.windTurbulence) * wind.windPulseMagnitude, ForceMode.Impulse);
+                                }
+                                else
+                                {
+                                    rigid.AddForce((wind.transform.position * wind.radius) * Random.Range(wind.windMain, wind.windMain + wind.windTurbulence) * wind.windPulseMagnitude, ForceMode.Force);
+                                }
                                 windPluseTime = 0;
                             }
                         }
