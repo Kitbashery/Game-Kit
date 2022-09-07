@@ -45,6 +45,17 @@ GameKit contains feature rich systems and components commonly used in games. Des
 * Integrated with health system
 * Integrated with projectiles
 
+#### Time Management:
+* Play/Pause
+* FPS Counter
+* Slow Motion
+* Time Events
+
+#### Force Fields:
+* Directional forces
+* Sync with WindZone
+* Explosion/Implosion 
+
 # 
 The name Kitbashery & all associated images Copyright &copy; 2022 Kitbashery. All Rights Reserved.
 
