@@ -31,9 +31,10 @@ namespace Kitbashery.Gameplay
 
         #endregion
 
-        private void Awake()
+        private void Start()
         {
             isTrigger = true;
+            eventCollider.isTrigger = true;
         }
 
         #region Initialization & Updates:
