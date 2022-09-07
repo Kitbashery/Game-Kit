@@ -35,7 +35,7 @@ namespace Kitbashery.Gameplay
     /// A physics based projectile.
     /// </summary>
     [HelpURL("https://kitbashery.com/docs/game-kit/projectile.html")]
-    [AddComponentMenu("Kitbashery/Gameplay/Projectile")]
+    [AddComponentMenu("Kitbashery/Physics/Projectile")]
     [RequireComponent(typeof(Rigidbody))]
     public class Projectile : CollisionEvents
     {
@@ -112,9 +112,9 @@ namespace Kitbashery.Gameplay
             }
         }
 
+#if UNITY_EDITOR
         private void OnValidate()
         {
-#if UNITY_EDITOR
             //Autofill events: 
             if(enterEvent == null)
             {
@@ -128,8 +128,8 @@ namespace Kitbashery.Gameplay
             {
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(enterEvent, Impact);
             }
-#endif
         }
+#endif
 
         private void OnEnable()
         {
@@ -177,22 +177,28 @@ namespace Kitbashery.Gameplay
 
         public void Impact()
         {
-            if(applyForceOnImpact == true)
+            if(lastContact != null)
             {
-                Vector3 hit = lastContact.ClosestPoint(transform.position);
-                lastContact.attachedRigidbody.AddForceAtPosition(Vector3.one * impactForce, hit);
-            }
-
-            if(modifyHealthOnImpact == true)
-            {
-                lastHealth = lastContact.GetComponent<Health>();
-                if(healthEffect.times > 1)
+                if (applyForceOnImpact == true)
                 {
-                    lastHealth.ModifyHealthOverTime(healthEffect);
+                    Vector3 hit = lastContact.ClosestPoint(transform.position);
+                    if(lastContact.attachedRigidbody != null)
+                    {
+                        lastContact.attachedRigidbody.AddForceAtPosition(Vector3.one * impactForce, hit);
+                    }
                 }
-                else
+
+                if (modifyHealthOnImpact == true)
                 {
-                    lastHealth.ModifyHealth(healthEffect.modifier, healthEffect.amount);
+                    lastHealth = lastContact.GetComponent<Health>();
+                    if (healthEffect.times > 1)
+                    {
+                        lastHealth.ModifyHealthOverTime(healthEffect);
+                    }
+                    else
+                    {
+                        lastHealth.ModifyHealth(healthEffect.modifier, healthEffect.amount);
+                    }
                 }
             }
 
