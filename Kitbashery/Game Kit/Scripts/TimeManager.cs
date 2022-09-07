@@ -8,7 +8,7 @@ using TMPro;
 namespace Kitbashery.Gameplay
 {
     /// <summary>
-    /// 
+    /// Manages play/pause, framerate events and time scale effects.
     /// </summary>
     [HelpURL("https://kitbashery.com/docs/game-kit/time-manager.html")]
     [DisallowMultipleComponent]
@@ -48,9 +48,11 @@ namespace Kitbashery.Gameplay
         private float initialTimeScale;
 
         [Header("FPS Counter:")]
+        [Tooltip("Should fps counters be updated and fps events invoked?")]
         public bool debugFPS = false;
         public Text fpsCounter;
         public TMP_Text fpsCounterTMP;
+        [Min(1)]
         public float targetFPS = 60;
         [HideInInspector]
         public float currentFPS;
@@ -86,6 +88,24 @@ namespace Kitbashery.Gameplay
             {
                 CountFPS();
             }
+        }
+
+        private IEnumerator ModifyTimeScale()
+        {
+            Time.timeScale += currentTimeMultiplier;
+            modifyingTimeScale = true;
+            yield return new WaitForSeconds(currentTimeDuration);
+            if (paused == false)
+            {
+                Time.timeScale = initialTimeScale;
+            }
+            else
+            {
+                Time.timeScale = 0;
+            }
+            currentTimeMultiplier = 0;
+            currentTimeDuration = 0;
+            modifyingTimeScale = false;
         }
 
         #endregion
@@ -133,13 +153,13 @@ namespace Kitbashery.Gameplay
 
             if(fpsCounterTMP != null)
             {
-                fpsCounterTMP.text = ((int)currentFPS).ToString();
+                fpsCounterTMP.text = "FPS: " + ((int)currentFPS).ToString();
             }
             else
             {
                 if (fpsCounter != null)
                 {
-                    fpsCounter.text = ((int)currentFPS).ToString();
+                    fpsCounter.text = "FPS: " + ((int)currentFPS).ToString();
                 }
             }
             
@@ -156,27 +176,15 @@ namespace Kitbashery.Gameplay
         public void DebugFPS()
         {
             Debug.Log(((int)currentFPS).ToString());
-        }
-
-        public void SlowMoHalfSpeed(float duration)
-        {
-            if(modifyingTimeScale == true)
-            {
-                StopCoroutine(ModifyTimeScale());
-            }
-            currentTimeDuration = duration;
-            Time.timeScale = initialTimeScale / 2;
-            currentTimeMultiplier = 0;
-            StartCoroutine(ModifyTimeScale());
-        }
+        }  
 
         /// <summary>
         /// Scales the time of the game for the specified duration.
         /// </summary>
-        /// <param name="multiplier"></param>
-        /// <param name="duration"></param>
-        /// <param name="addMultiplier"></param>
-        /// <param name="addDuration"></param>
+        /// <param name="multiplier">How much to add to the timescale.</param>
+        /// <param name="duration">The duration of the effect.</param>
+        /// <param name="addMultiplier">Should the current multiplier be added onto.</param>
+        /// <param name="addDuration">Should the current durration be added onto.</param>
         public void ScaleTime(float multiplier, float duration, bool addMultiplier, bool addDuration)
         {
             if (modifyingTimeScale == true)
@@ -209,22 +217,20 @@ namespace Kitbashery.Gameplay
             }
         }
 
-        private IEnumerator ModifyTimeScale()
+        /// <summary>
+        /// Slows the time scale to half speed (overrides ScaleTime effects).
+        /// </summary>
+        /// <param name="duration">How long the slow motion effect lasts.</param>
+        public void SlowMoHalfSpeed(float duration)
         {
-            Time.timeScale += currentTimeMultiplier;
-            modifyingTimeScale = true;
-            yield return new WaitForSeconds(currentTimeDuration);
-            if(paused == false)
+            if (modifyingTimeScale == true)
             {
-                Time.timeScale = initialTimeScale;
+                StopCoroutine(ModifyTimeScale());
             }
-            else
-            {
-                Time.timeScale = 0;
-            }
+            currentTimeDuration = duration;
+            Time.timeScale = initialTimeScale / 2;
             currentTimeMultiplier = 0;
-            currentTimeDuration = 0;
-            modifyingTimeScale = false;
+            StartCoroutine(ModifyTimeScale());
         }
 
         #endregion
