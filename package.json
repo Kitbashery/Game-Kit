@@ -1,0 +1,29 @@
+{
+  "name": "com.kitbashery.game-kit",
+  "version": "1.1.0",
+  "displayName": "Game Kit",
+  "description": "A collection of feature rich gameplay systems.",
+  "unity": "2021.3",
+  "unityRelease": "0f1",
+  "documentationUrl": "https://kitbashery.com/docs/game-kit",
+  "changelogUrl": "https://github.com/Kitbashery/Game-Kit/releases",
+  "licensesUrl": "https://github.com/Kitbashery/Game-Kit/blob/main/LICENSE",
+  "keywords": [
+    "Gameplay",
+    "Physics",
+    "Events"
+  ],
+  "author": {
+    "name": "Kitbashery",
+    "email": "kitbashery@gmail.com",
+    "url": "https://www.kitbashery.com"
+  },
+  "type": "tool",
+  "samples": [
+        {
+            "displayName": "Demo Scene(s)",
+            "description": "Game Kit Demo scene(s).",
+            "path": "Samples~/Demo"
+        }
+]
+}
