@@ -72,6 +72,6 @@ Online documentation & scripting API is found at:
 
 https://kitbashery.com/docs/game-kit
 
-# 
+---- 
 The name Kitbashery & all associated images Copyright &copy; 2022 Kitbashery. All Rights Reserved.
 
