@@ -5,6 +5,11 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
+#endif
+
 namespace Kitbashery.Gameplay
 {
     /// <summary>
@@ -79,7 +84,7 @@ namespace Kitbashery.Gameplay
 
         private void Update()
         {
-            if(Input.GetKeyDown(togglePauseKey) == true)
+            if(isPauseKeyPressed())
             {
                 TogglePause();
             }
@@ -88,6 +93,17 @@ namespace Kitbashery.Gameplay
             {
                 CountFPS();
             }
+        }
+
+        private bool isPauseKeyPressed()
+        {
+            #if ENABLE_INPUT_SYSTEM
+                return ((KeyControl)Keyboard.current[togglePauseKey.ToString()]).wasPressedThisFrame;
+            #endif
+
+            #if ENABLE_LEGACY_INPUT_MANAGER
+                return Input.GetKeyDown(togglePauseKey) == true;
+            #endif
         }
 
         private IEnumerator ModifyTimeScale()
