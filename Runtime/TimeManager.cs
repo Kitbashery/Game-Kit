@@ -84,7 +84,7 @@ namespace Kitbashery.Gameplay
 
         private void Update()
         {
-            if(isPauseKeyPressed())
+            if(isPauseKeyPressed() == true)
             {
                 TogglePause();
             }
