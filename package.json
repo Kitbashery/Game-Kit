@@ -7,7 +7,7 @@
   "unityRelease": "0f1",
   "documentationUrl": "https://kitbashery.com/docs/game-kit",
   "changelogUrl": "https://github.com/Kitbashery/Game-Kit/commits/Latest",
-  "licensesUrl": "https://github.com/Kitbashery/Game-Kit/blob/main/LICENSE",
+  "licensesUrl": "https://github.com/Kitbashery/Game-Kit/blob/main/.github/LICENSE",
   "keywords": [
     "Gameplay",
     "Physics",
