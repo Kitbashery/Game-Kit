@@ -6,7 +6,6 @@ using UnityEngine.Events;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 #endif
 
 /*
@@ -37,54 +36,56 @@ SOFTWARE.
 Need support or additional features? Please visit https://kitbashery.com/
 */
 
-/// <summary>
-/// Invokes <see cref="UnityEvent"/>s based on keyboard key input.
-/// See Unity manual for details about input system migration:
-/// https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Migration.html
-/// </summary>
-public class KeyEvents : MonoBehaviour
+namespace Kitbashery.Gameplay
 {
-    #region Properties:
-
-    public bool allowInput { get; set; } = true;
-
-    public List<KeyEvent> keyEvents;
-
-    [Tooltip("Should any key X events be used?")]
-    public bool checkAnyKey = false;
-    public UnityEvent onAnyKeyPress;
-    [Tooltip("Note: Only implemented for legacy input system.")]
-    public UnityEvent onAnyKeyHeld;
-
-    #endregion
-
-    #region Initialization & Updates:
-
-    void Update()
+    /// <summary>
+    /// Invokes <see cref="UnityEvent"/>s based on keyboard key input.
+    /// See Unity manual for details about input system migration:
+    /// https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Migration.html
+    /// </summary>
+    public class KeyEvents : MonoBehaviour
     {
-        if(allowInput == true)
-        {
-            if (keyEvents.Count > 0)
-            {
-                foreach (KeyEvent input in keyEvents)
-                {
-                    EvaluateKeyEvent(input);
-                }
-            }
+        #region Properties:
 
-            if (checkAnyKey == true)
+        public bool allowInput { get; set; } = true;
+
+        public List<KeyEvent> keyEvents;
+
+        [Tooltip("Should any key X events be used?")]
+        public bool checkAnyKey = false;
+        public UnityEvent onAnyKeyPress;
+        [Tooltip("Note: Only implemented for legacy input system.")]
+        public UnityEvent onAnyKeyHeld;
+
+        #endregion
+
+        #region Initialization & Updates:
+
+        void Update()
+        {
+            if (allowInput == true)
             {
+                if (keyEvents.Count > 0)
+                {
+                    foreach (KeyEvent input in keyEvents)
+                    {
+                        EvaluateKeyEvent(input);
+                    }
+                }
+
+                if (checkAnyKey == true)
+                {
 #if (ENABLE_INPUT_SYSTEM && ENABLE_LEGACY_INPUT_MANAGER) || ENABLE_INPUT_SYSTEM
 
-                if (Keyboard.current.anyKey.isPressed == true)
-                {
-                    onAnyKeyPress.Invoke();
-                }
+                    if (Keyboard.current.anyKey.isPressed == true)
+                    {
+                        onAnyKeyPress.Invoke();
+                    }
 
-                /* if (Keyboard.current.anyKey.wasUpdatedThisFrame)
-                 {
-                     onAnyKeyPress.Invoke();
-                 }*/
+                    /* if (Keyboard.current.anyKey.wasUpdatedThisFrame)
+                     {
+                         onAnyKeyPress.Invoke();
+                     }*/
 #else
 
         if(Input.anyKey == true)
@@ -98,23 +99,23 @@ public class KeyEvents : MonoBehaviour
         }
 
 #endif
+                }
             }
         }
-    }
 
-    #endregion
+        #endregion
 
-    #region Methods:
+        #region Methods:
 
-    public void EvaluateKeyEvent(KeyEvent input)
-    {
+        public void EvaluateKeyEvent(KeyEvent input)
+        {
 
 #if (ENABLE_INPUT_SYSTEM && ENABLE_LEGACY_INPUT_MANAGER) || ENABLE_INPUT_SYSTEM
 
-        if (IsKeyTriggered(input.key, input.trigger) == true)
-        {
-            input.action.Invoke();
-        }
+            if (IsKeyTriggered(input.key, input.trigger) == true)
+            {
+                input.action.Invoke();
+            }
 #else
 
 #if ENABLE_LEGACY_INPUT_MANAGER
@@ -127,27 +128,27 @@ public class KeyEvents : MonoBehaviour
 
 #endif
 
-    }
+        }
 
 #if ENABLE_INPUT_SYSTEM
 
-    public bool IsKeyTriggered(Key key, InputTrigger trigger)
-    {
-        switch(trigger)
+        public bool IsKeyTriggered(Key key, InputTrigger trigger)
         {
-            case InputTrigger.WhenDown:
+            switch (trigger)
+            {
+                case InputTrigger.WhenDown:
 
-                return (Keyboard.current[key]).wasPressedThisFrame;
+                    return (Keyboard.current[key]).wasPressedThisFrame;
 
-            case InputTrigger.WhenUp:
+                case InputTrigger.WhenUp:
 
-                return (Keyboard.current[key]).wasReleasedThisFrame;
+                    return (Keyboard.current[key]).wasReleasedThisFrame;
 
-            default:
+                default:
 
-                return false;
+                    return false;
+            }
         }
-    }
 
 #endif
 
@@ -173,21 +174,22 @@ public class KeyEvents : MonoBehaviour
 
 #endif
 
-    #endregion
+        #endregion
 
-}
+    }
 
-[Serializable]
-public struct KeyEvent
-{
-    [Tooltip("The key to use if using the 2021+ input system.")]
+    [Serializable]
+    public struct KeyEvent
+    {
+        [Tooltip("The key to use if using the 2021+ input system.")]
 #if ENABLE_INPUT_SYSTEM
-    public Key key;
+        public Key key;
 #endif
-    [Tooltip("The key to use if using the legacy input system.")]
-    public KeyCode legacyKey;
-    public InputTrigger trigger;
-    public UnityEvent action;
-}
+        [Tooltip("The key to use if using the legacy input system.")]
+        public KeyCode legacyKey;
+        public InputTrigger trigger;
+        public UnityEvent action;
+    }
 
-public enum InputTrigger { WhenDown, WhenUp }
+    public enum InputTrigger { WhenDown, WhenUp }
+}
