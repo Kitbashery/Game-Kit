@@ -1,6 +1,6 @@
 {
   "name": "com.kitbashery.game-kit",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "displayName": "Game Kit",
   "description": "A collection of feature rich gameplay systems.",
   "unity": "2021.3",
