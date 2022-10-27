@@ -1,10 +1,10 @@
 {
   "name": "com.kitbashery.game-kit",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "displayName": "Game Kit",
   "description": "A collection of feature rich gameplay systems.",
   "unity": "2021.3",
-  "unityRelease": "0f1",
+  "unityRelease": "12f1",
   "documentationUrl": "https://kitbashery.com/docs/game-kit",
   "changelogUrl": "https://github.com/Kitbashery/Game-Kit/commits/Latest",
   "licensesUrl": "https://github.com/Kitbashery/Game-Kit/blob/main/.github/LICENSE",
