@@ -44,6 +44,8 @@ Need support or additional features? Please visit https://kitbashery.com/
 /// </summary>
 public class KeyEvents : MonoBehaviour
 {
+    #region Properties:
+
     public bool allowInput { get; set; } = true;
 
     public List<KeyEvent> keyEvents;
@@ -53,6 +55,10 @@ public class KeyEvents : MonoBehaviour
     public UnityEvent onAnyKeyPress;
     [Tooltip("Note: Only implemented for legacy input system.")]
     public UnityEvent onAnyKeyHeld;
+
+    #endregion
+
+    #region Initialization & Updates:
 
     void Update()
     {
@@ -96,84 +102,78 @@ public class KeyEvents : MonoBehaviour
         }
     }
 
-    private void EvaluateKeyEvent(KeyEvent input)
+    #endregion
+
+    #region Methods:
+
+    public void EvaluateKeyEvent(KeyEvent input)
     {
-        switch (input.trigger)
+
+#if (ENABLE_INPUT_SYSTEM && ENABLE_LEGACY_INPUT_MANAGER) || ENABLE_INPUT_SYSTEM
+
+        if (IsKeyTriggered(input.key, input.trigger) == true)
         {
-            case InputTrigger.WhenDown:
-
-#if (ENABLE_INPUT_SYSTEM && ENABLE_LEGACY_INPUT_MANAGER) || ENABLE_INPUT_SYSTEM
-
-                if (IsKeyPressed(input.key) == true)
-                {
-                    input.action.Invoke();
-                }
-#else
-
-#if ENABLE_LEGACY_INPUT_MANAGER
-
-                    if (IsKeyPressed(input.legacyKey) == true)
-                    {
-                        input.uEvent.Invoke();
-                    }
-#endif
-
-#endif
-
-                break;
-
-            case InputTrigger.WhenUp:
-
-#if (ENABLE_INPUT_SYSTEM && ENABLE_LEGACY_INPUT_MANAGER) || ENABLE_INPUT_SYSTEM
-
-                if (IsKeyReleased(input.key) == true)
-                {
-                    input.action.Invoke();
-                }
-#else
-
-#if ENABLE_LEGACY_INPUT_MANAGER
-
-                    if (IsKeyReleased(input.legacyKey) == true)
-                    {
-                        input.uEvent.Invoke();
-                    }
-#endif
-
-#endif
-                break;
+            input.action.Invoke();
         }
+#else
+
+#if ENABLE_LEGACY_INPUT_MANAGER
+
+                    if (IsKeyTriggered(input.legacyKey, input.trigger) == true)
+                    {
+                        input.uEvent.Invoke();
+                    }
+#endif
+
+#endif
 
     }
 
 #if ENABLE_INPUT_SYSTEM
 
-    private bool IsKeyPressed(Key key)
+    public bool IsKeyTriggered(Key key, InputTrigger trigger)
     {
-        return (Keyboard.current[key]).wasPressedThisFrame;
-    }
+        switch(trigger)
+        {
+            case InputTrigger.WhenDown:
 
-    private bool IsKeyReleased(Key key)
-    {
+                return (Keyboard.current[key]).wasPressedThisFrame;
 
-        return (Keyboard.current[key]).wasReleasedThisFrame;
+            case InputTrigger.WhenUp:
+
+                return (Keyboard.current[key]).wasReleasedThisFrame;
+
+            default:
+
+                return false;
+        }
     }
 
 #endif
 
 #if ENABLE_LEGACY_INPUT_MANAGER
 
-    private bool IsKeyPressed(KeyCode key)
+    public bool IsKeyTriggered(Key key, InputTrigger trigger)
     {
-        return Input.GetKeyDown(key) == true;
-    }
+        switch(trigger)
+        {
+            case InputTrigger.WhenDown:
 
-    private bool IsKeyReleased(KeyCode key)
-    {
-        return Input.GetKeyUp(key) == true;
+                 return Input.GetKeyDown(key) == true;
+
+            case InputTrigger.WhenUp:
+
+                return Input.GetKeyUp(key) == true;
+
+            default:
+
+                return false;
+        }
     }
 
 #endif
+
+    #endregion
 
 }
 
