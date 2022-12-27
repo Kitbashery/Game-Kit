@@ -4,18 +4,52 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+/*
+ MIT License
+
+Copyright (c) 2022 Kitbashery
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+
+Need support or additional features? Please visit https://kitbashery.com/
+*/
+
 namespace Kitbashery.Gameplay
 {
+    /// <summary>
+    /// Casts rays and outputs an array of <see cref="RaycastHit"/>s
+    /// </summary>
+    [HelpURL("https://kitbashery.com/docs/game-kit/raycaster.html")]
+    [AddComponentMenu("Kitbashery/Gameplay/Raycaster")]
     public class Raycaster : MonoBehaviour
     {
         #region Properties:
 
+        [Tooltip("If true the raycaster will cast rays ever fixed framerate frame.")]
         public bool canCast = true;
 
         public RaycastTypes castType = RaycastTypes.single;
 
-        [Min(1)]
-        public int rayCount = 1;
+        [field: SerializeField, Min(1) ]
+        public int rayCount { get; set; } = 1;
 
         private Ray tempRay = new Ray(Vector3.zero, Vector3.forward);
 
@@ -24,28 +58,37 @@ namespace Kitbashery.Gameplay
 
         [Tooltip("The max distance of a ray, if left at 0 will default to infinity.")]
         public float maxRayDistance = 0;
-        public float spacing = 1f;
-        [Range(0, 360)]
-        public float scatterVerticalRange = 45;
-        [Range(0, 360)]
-        public float scatterHorizontalRange = 45;
+        [field: SerializeField, Tooltip("Spacing for grid, line and circle cast types.")]
+        public float spacing { get; set; } = 1f;
+
+        [field: SerializeField, Range(0, 360), Space]
+        public float scatterVerticalRange { get; set; } = 45;
+        [field: SerializeField, Range(0, 360)]
+        public float scatterHorizontalRange { get; set; } = 45;
 
         public LayerMask layerMask;
 
         public QueryTriggerInteraction triggerInteraction = QueryTriggerInteraction.Ignore;
 
-        public bool applyForce = false;
+        [Space]
+        [Tooltip("Events that can be invoked when a raycast hits something. (invoked before any force, health or spawn events.")]
+        public List<RaycastEvent> raycastEvents = new List<RaycastEvent>();
 
-        [Min(0)]
-        public float force;
+        [field: SerializeField, Header("Force:")]
+        public bool applyForce { get; set; } = false;
+
+        [field: SerializeField, Min(0)]
+        public float force { get; set; }
 
         public ForceMode forceMode = ForceMode.Impulse;
 
-        public bool modifyHealth = false;
+        [field: SerializeField, Header("Health:")]
+        public bool modifyHealth { get; set; } = false;
 
         public TimedHealthEffect healthEffect;
 
-        public bool canSpawn = false;
+        [field: SerializeField, Header("Spawning:")]
+        public bool canSpawn { get; set; } = false;
 
         public RaycastSpawn spawn;
 
@@ -68,7 +111,7 @@ namespace Kitbashery.Gameplay
         {
             if(maxRayDistance == 0)
             {
-                Debug.Log("|Raycaster|: maxRayDistance is 0 setting it to infinity.");
+                Debug.Log("|Raycaster|: maxRayDistance is 0 setting it to infinity.", gameObject);
                 maxRayDistance = Mathf.Infinity;
             }
         }
@@ -243,6 +286,18 @@ namespace Kitbashery.Gameplay
                     {
                         lastContact = hit.collider;
 
+                        //Invoke events:
+                        if(raycastEvents.Count > 0)
+                        {
+                            foreach (RaycastEvent raycastEvent in raycastEvents)
+                            {
+                                if(raycastEvent.requiredTag != string.Empty && hit.collider.tag.Contains(raycastEvent.requiredTag) == true)
+                                {
+                                    raycastEvent.hitEvent.Invoke();
+                                }
+                            }
+                        }
+
                         // Apply Force:
                         if (applyForce == true && force > 0)
                         {
@@ -303,6 +358,15 @@ namespace Kitbashery.Gameplay
             }
         }
 
+        /// <summary>
+        /// Sets the value of castType: single = 0, grid = 1, scatter = 2, line = 3, circle = 4, fan = 5 
+        /// </summary>
+        /// <param name="rayType">An integer value of an enumeration entry defined in RaycastTypes.</param>
+        public void SetCastType(int rayType)
+        {
+            castType = (RaycastTypes)Mathf.Clamp(rayType, 0, 5);
+        }
+
         #endregion
 
         [Serializable]
@@ -315,6 +379,15 @@ namespace Kitbashery.Gameplay
             public float maxAngle;
         }
 
-        public enum RaycastTypes { single, grid, scatter, line, circle, fan }
+        [Serializable]
+        public struct RaycastEvent
+        {
+            [Tooltip("The tag required for the hit event to be invoked.")]
+            public string requiredTag;
+            [Tooltip("The event to invoke when an object with the required tag is hit.")]
+            public UnityEvent hitEvent;
+        }
+
+        public enum RaycastTypes { single = 0, grid = 1, scatter = 2, line = 3, circle = 4, fan = 5 }
     }
 }
