@@ -10,19 +10,15 @@ using UnityEngine.InputSystem;
 
 /*
  MIT License
-
 Copyright (c) 2022 Kitbashery
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
-
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
-
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,9 +26,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-
-
 Need support or additional features? Please visit https://kitbashery.com/
 */
 
@@ -43,6 +36,8 @@ namespace Kitbashery.Gameplay
     /// See Unity manual for details about input system migration:
     /// https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Migration.html
     /// </summary>
+    [HelpURL("https://kitbashery.com/docs/game-kit/key-events.html")]
+    [AddComponentMenu("Kitbashery/Events/KeyEvents")]
     public class KeyEvents : MonoBehaviour
     {
         #region Properties:
@@ -51,7 +46,7 @@ namespace Kitbashery.Gameplay
 
         public List<KeyEvent> keyEvents;
 
-        [Tooltip("Should any key X events be used?")]
+        [Tooltip("Should this check for any key press?")]
         public bool checkAnyKey = false;
         public UnityEvent onAnyKeyPress;
         [Tooltip("Note: Only implemented for legacy input system.")]
@@ -88,15 +83,15 @@ namespace Kitbashery.Gameplay
                      }*/
 #else
 
-        if(Input.anyKey == true)
-        {
-            onAnyKeyPress.Invoke();
-        }
+                    if (Input.anyKey == true)
+                    {
+                        onAnyKeyPress.Invoke();
+                    }
 
-        if(Input.anyKeyDown == true)
-        {
-            onAnyKeyHeld.Invoke();
-        }
+                    if (Input.anyKeyDown == true)
+                    {
+                        onAnyKeyHeld.Invoke();
+                    }
 
 #endif
                 }
@@ -120,10 +115,10 @@ namespace Kitbashery.Gameplay
 
 #if ENABLE_LEGACY_INPUT_MANAGER
 
-                    if (IsKeyTriggered(input.legacyKey, input.trigger) == true)
-                    {
-                        input.uEvent.Invoke();
-                    }
+            if (IsKeyTriggered(input.legacyKey, input.trigger) == true)
+            {
+                input.action.Invoke();
+            }
 #endif
 
 #endif
@@ -154,23 +149,23 @@ namespace Kitbashery.Gameplay
 
 #if ENABLE_LEGACY_INPUT_MANAGER
 
-    public bool IsKeyTriggered(Key key, InputTrigger trigger)
-    {
-        switch(trigger)
+        public bool IsKeyTriggered(KeyCode key, InputTrigger trigger)
         {
-            case InputTrigger.WhenDown:
+            switch (trigger)
+            {
+                case InputTrigger.WhenDown:
 
-                 return Input.GetKeyDown(key) == true;
+                    return Input.GetKeyDown(key) == true;
 
-            case InputTrigger.WhenUp:
+                case InputTrigger.WhenUp:
 
-                return Input.GetKeyUp(key) == true;
+                    return Input.GetKeyUp(key) == true;
 
-            default:
+                default:
 
-                return false;
+                    return false;
+            }
         }
-    }
 
 #endif
 
@@ -181,8 +176,8 @@ namespace Kitbashery.Gameplay
     [Serializable]
     public struct KeyEvent
     {
-        [Tooltip("The key to use if using the 2021+ input system.")]
 #if ENABLE_INPUT_SYSTEM
+        [Tooltip("The key to use if using the 2021+ input system.")]
         public Key key;
 #endif
         [Tooltip("The key to use if using the legacy input system.")]
