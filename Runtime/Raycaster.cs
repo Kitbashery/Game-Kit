@@ -103,15 +103,18 @@ namespace Kitbashery.Gameplay
 
         public UnityEvent afterSpawn;
 
+        private Transform myTransform;
+
         #endregion
 
         #region Initialization & Updates:
 
         private void Awake()
         {
+            myTransform = transform;
             if(maxRayDistance == 0)
             {
-                Debug.Log("|Raycaster|: maxRayDistance is 0 setting it to infinity.", gameObject);
+                Debug.Log("|Raycaster|: maxRayDistance is 0, setting it to infinity.", gameObject);
                 maxRayDistance = Mathf.Infinity;
             }
         }
@@ -205,6 +208,8 @@ namespace Kitbashery.Gameplay
             {
                 case RaycastTypes.single:
 
+                    tempRay.origin = myTransform.position;
+                    tempRay.direction = myTransform.forward;
                     Physics.RaycastNonAlloc(tempRay, hits, maxRayDistance, layerMask);
 
                     break;
@@ -214,9 +219,8 @@ namespace Kitbashery.Gameplay
                     hits = new RaycastHit[rayCount];
                     for (int i = 0; i < rayCount; i++)
                     {
-                        Vector3 scatterDirection = transform.forward;
-                        scatterDirection = Quaternion.Euler(UnityEngine.Random.Range(-scatterVerticalRange, scatterVerticalRange), UnityEngine.Random.Range(-scatterHorizontalRange, scatterHorizontalRange), 0) * scatterDirection;
-                        tempRay = new Ray(transform.position, scatterDirection);
+                        tempRay.origin = myTransform.position;
+                        tempRay.direction = Quaternion.Euler(UnityEngine.Random.Range(-scatterVerticalRange, scatterVerticalRange), UnityEngine.Random.Range(-scatterHorizontalRange, scatterHorizontalRange), 0) * myTransform.forward;
                         Physics.RaycastNonAlloc(tempRay, hits, maxRayDistance, layerMask, triggerInteraction);
                     }
 
@@ -227,8 +231,8 @@ namespace Kitbashery.Gameplay
                     hits = new RaycastHit[rayCount];
                     for (int i = 0; i < rayCount; i++)
                     {
-                        Vector3 lineDirection = transform.forward;
-                        tempRay = new Ray(transform.position + new Vector3((i - (rayCount - 1) / 2f) * spacing, 0, 0), lineDirection);
+                        tempRay.origin = myTransform.position + (Vector3.right * (i - (rayCount - 1) / 2f) * spacing);
+                        tempRay.direction = myTransform.forward;
                         Physics.RaycastNonAlloc(tempRay, hits, maxRayDistance, layerMask, triggerInteraction);
                     }
                     break;
@@ -236,14 +240,13 @@ namespace Kitbashery.Gameplay
                 case RaycastTypes.grid:
 
                     int gridSize = (int)Mathf.Sqrt(rayCount);
-                    int actualRayCount = gridSize * gridSize;
-                    hits = new RaycastHit[actualRayCount];
+                    hits = new RaycastHit[gridSize * gridSize];
                     for (int i = 0; i < gridSize; i++)
                     {
                         for (int j = 0; j < gridSize; j++)
                         {
-                            Vector3 gridDirection = transform.forward;
-                            tempRay = new Ray(transform.position + new Vector3((i - (gridSize - 1) / 2f) * spacing, (j - (gridSize - 1) / 2f) * spacing, 0), gridDirection);
+                            tempRay.origin = myTransform.position + new Vector3((i - (gridSize - 1) / 2f) * spacing, (j - (gridSize - 1) / 2f) * spacing, 0);
+                            tempRay.direction = myTransform.forward;
                             Physics.RaycastNonAlloc(tempRay, hits, maxRayDistance, layerMask, triggerInteraction);
                         }
                     }
@@ -253,13 +256,10 @@ namespace Kitbashery.Gameplay
                 case RaycastTypes.circle:
 
                     hits = new RaycastHit[rayCount];
-                    float angleStep = 360f / rayCount;
-                    Quaternion forwardRotation = Quaternion.LookRotation(transform.up, transform.forward);
                     for (int i = 0; i < rayCount; i++)
                     {
-                        Vector3 circleDirection = Quaternion.Euler(0, i * angleStep, 0) * transform.right;
-                        Vector3 circlePosition = transform.position + forwardRotation * circleDirection * rayCount * spacing;
-                        tempRay = new Ray(circlePosition, transform.forward);
+                        tempRay.origin = myTransform.position + Quaternion.LookRotation(myTransform.up, myTransform.forward) * Quaternion.Euler(0, i * (360f / rayCount), 0) * myTransform.right * rayCount * spacing;
+                        tempRay.direction = myTransform.forward;
                         Physics.RaycastNonAlloc(tempRay, hits, maxRayDistance, layerMask, triggerInteraction);
                     }
 
@@ -269,10 +269,8 @@ namespace Kitbashery.Gameplay
                     hits = new RaycastHit[rayCount];
                     for (int i = 0; i < rayCount; i++)
                     {
-                        float angle = 180f / rayCount * i - 90f;
-                        angle = Mathf.Clamp(angle, -180f, 180f);
-                        Vector3 fanDirection = Quaternion.AngleAxis(angle, transform.up) * transform.forward;
-                        tempRay = new Ray(transform.position, fanDirection);
+                        tempRay.origin = myTransform.position;
+                        tempRay.direction = Quaternion.AngleAxis(Mathf.Clamp(180f / rayCount * i - 90f, -180f, 180f), myTransform.up) * myTransform.forward;
                         Physics.RaycastNonAlloc(tempRay, hits, maxRayDistance, layerMask, triggerInteraction);
                     }
                     break;
