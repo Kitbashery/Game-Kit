@@ -86,7 +86,7 @@ namespace Kitbashery.Gameplay
         {
             foreach (Pool pool in pools)
             {
-                if (!namedPools.ContainsKey(pool.prefab.name))
+                if (pool.prefab != null && !namedPools.ContainsKey(pool.prefab.name))
                 {
                     PopulatePool(pool);
                     namedPools.Add(pool.prefab.name, pool);
